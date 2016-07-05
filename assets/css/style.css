@@ -82,11 +82,6 @@ a:focus {
 	text-align: center
 }
 
-.readme{
-    padding-left: 45px;
-    padding-right: 45px;
-}
-
 .main-text p {
 	font-size: larger;
 }
@@ -200,7 +195,7 @@ a:focus {
 }
 
 .mtb {
-	margin-top: 80px;
+	margin-top: 60px;
 	margin-bottom: 80px;
 }
 
@@ -314,7 +309,7 @@ a:focus {
 	text-align:center;
 	background-attachment: relative;
 	background-position: center center;
-	min-height: 450px;
+	min-height: 250px;
 	width: 100%;
 	
     -webkit-background-size: 100%;
