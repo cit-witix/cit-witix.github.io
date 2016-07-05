@@ -31,8 +31,8 @@
 				</div>
 				<div class="navbar-collapse collapse navbar-right">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="index.html">Home</a></li>
-						<li><a href="install.html">Instalação</a></li>
+						<li><a href="index.html">Home</a></li>
+						<li class="active"><a href="install.html">Instalação</a></li>
 						<li><a href="#">Top Tips</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Captura<b class="caret"></b></a>
@@ -54,38 +54,86 @@
 						<div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
 						<article class="markdown-body entry-content" itemprop="text">
 						
-						<h1>WiTIX</h1>
+						<h1>Instalação</h1>
+
+						<h2>Configuração do Ambiente</h2>
 						<p>
-							Witix é uma plataforma de monitoramento, que utiliza um banco de dados nosql 
-							<a href="http://www.elasticsearch.org">Elasticserach</a> e descoberta de dados 
-							e insights atraves da ferramenta <a href="http://www.elasticsearch.org/overview/kibana/">Kibana</a>. 
-							A figura abaixo ilustra a solução:
+							<ul>
+								<li><a href="https://help.github.com/articles/set-up-git/">Git</a></li>
+								<li><a href="https://docs.docker.com/engine/installation/">Docker</a></li>
+							</ul>
 						</p>
-						<p class="centered">
-							<img src="https://camo.githubusercontent.com/bb734067f619fd5b99d3cc723d9f6ad3352ec7ca/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f313636515338456c53507873466f676c4273644835343451585f556d7679696834795f5a58617134557879772f7075623f773d39333926683d353137" alt="WiTIX Big Piucture" data-canonical-src="https://docs.google.com/drawings/d/166QS8ElSPxsFoglBsdH544QX_Umvyih4y_ZXaq4Uxyw/pub?w=939&amp;h=517" style="max-width:100%;">
-						</p>
+						<h2>Docker Compose</h2>
+						<p>Utilizando o docker</p>
+						<div class="highlight highlight-source-shell left">
+							<pre>
+git clone git clone https://github.com/cit-witix/witix-docker.git
+cd witix-docker
+docker-compose up 
+							</pre>
+						</div>
+									
 						<p>
-							A seguir ilustramos alguns exemplos de dashboards que são gerados utilizando a 
-							configuração padrão da ferramentao. O dashboard a seguir ilustra, 
-							<em>em tempo real</em> os servições mais utilizados, tempo de resposta, 
-							quantidade de requisições durante o período de tempo informado.
+							O comando <strong>docker-compose up</strong> já inicia os quatro containers 
+							configuradas no arquivo docker-compose.yml fazendo os links necessários. 
+							Importante observar que primeira execução será mais demorada, pois as imagens 
+							serão construídas (build) e as dependencias baixadas (kibana, elasticsearch, 
+							logstash, debian) do repositório central <a href="http://hub.docker.com">docker hub</a>
 						</p>
-						<p class="centered">
-							<img src="https://camo.githubusercontent.com/deffbd618a689282a5afcbb24b74789da3fbf578/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f3141347744754d7053465f5951345f4a5969556277705559754d5947496a756c674468624d4663746644564d2f7075623f773d37393726683d333837" alt="Request" data-canonical-src="https://docs.google.com/drawings/d/1A4wDuMpSF_YQ4_JYiUbwpUYuMYGIjulgDhbMFctfDVM/pub?w=797&amp;h=387" style="max-width:100%;">
-						</p>
+						<p>Utilize as URLs abaixo para acessar os serviços: </p>
+						<ul>
+							<li><a href="http://localhost:9200/_plugin/head<">http://localhost:9200/_plugin/head</a></li>
+							<li><a href="http://localhost:5601">http://localhost:5601</a></li>
+						</ul>
 						<p>
-							A seguir um dashboard que permite agrupar os comandos SQL mais lentos.
+							Como enviar dados para o elasticsearch? Veja alguns exemplos em 
+							<a href="https://github.com/cit-witix/cit-witix.github.io/blob/master/witix-samples/readme.md">Samples</a>
 						</p>
-						<p class="centered">
-							<img src="https://camo.githubusercontent.com/2c8926938eba5d351b7a49c02561874b296127dd/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f3165684f644b665738395053474447746157386a325f46747a37304d64376c664935615952535858557556632f7075623f773d39353926683d353138" alt="SQL" data-canonical-src="https://docs.google.com/drawings/d/1ehOdKfW89PSGDGtaW8j2_Ftz70Md7lfI5aYRSXXUuVc/pub?w=959&amp;h=518" style="max-width:100%;">
-						</p>
-						<p>
-							É possível também enviar dados de negócio de cruzar esses daados com informações 
-							técnica.
-						</p>
-						<p class="centered">
-							<img src="https://camo.githubusercontent.com/62e5d97c8253ec5a8781f1ddd708f28afe99cc78/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f3131525a394f665f394a37687437444a645033706175516c733732412d7078543251535f717961524d4831512f7075623f773d38303126683d343534" alt="Indicadores Negocio" data-canonical-src="https://docs.google.com/drawings/d/11RZ9Of_9J7ht7DJdP3pauQls72A-pxT2QS_qyaRMH1Q/pub?w=801&amp;h=454" style="max-width:100%;">
-						</p>
+						<h2>Elasticsearch</h2>
+						<p>O comando abaixo constroi e executa o elasticsearch individualmente. </p>
+						<div class="highlight highlight-source-shell">
+							<pre>
+<span class="pl-c"># Caso não tenha baixado o repositório</span>
+git clone https://github.com/cit-witix/witix-docker.git
+cd witix-docker/elasticsearch
+docker build -t witixdocker_witix-elasticsearch
+<span class="pl-c"># expose on port 9200. Param --name is used to link docker with another images</span>
+docker run -p 9200:9200 --name=witix-elasticsearch  witixdocker_witix-elasticsearch
+							</pre>
+						</div>
+						<h2>ElastAlert</h2>
+						<p>Os comandos abaixo fazem o build da imagem docker para o elastalert</p>
+						<div class="highlight highlight-source-shell">
+							<pre>
+<span class="pl-c"># Caso não tenha baixado o repositório</span>
+git clone https://github.com/cit-witix/witix-docker.git								
+cd witix-docker/elastalert
+docker build -t witixdocker_witix-elastalert 
+docker run --link witix-elasticsearch:witix-elasticsearch witixdocker_witix-elastalert
+							</pre>
+						</div>
+						<h2>Kibana</h2>
+						<p>O comando abaixo constroi e executa o elasticsearch individualmente. </p>
+						<div class="highlight highlight-source-shell">
+							<pre>
+<span class="pl-c"># Caso não tenha baixado o repositório</span>
+git clone https://github.com/cit-witix/witix-docker.git
+cd witix-docker/kibana
+docker build -t witixdocker_witix-kibana
+<span class="pl-c"># expose on port 5601. Param link is used to link elasticsearch host</span>
+docker run -p 5601:5601 --name=witix-kibana --link witix-elasticsearch:witix-elasticsearch witixdocker_witix-kibana
+							</pre>
+						</div>
+						<h2>Petclinic</h2>
+						<p>O comando abaixo, executa aplicação demo petclinic, já instrumentada com os plugins do witix. </p>
+						<div class="highlight highlight-source-shell">
+							<pre>
+git clone https://github.com/cit-witix/witix-samples.git								
+cd witix-samples/witix-spring-petclinic/
+<span class="pl-c"># Require JDK 1.7 and maven 3.3.3 or superior </span>
+mvn tomcat7:run -Dmetrics.enabled=true -Dwitix.elasticsearch.url=http://[Elasticsearch Host]<span class="pl-k">&lt;</span>:[port]<span class="pl-k">&gt;</span> -Dwitix.applicationName=PETCLINIC -Dwitix.requestmonitor.http.collectHeaders=<span class="pl-c1">true</span> -Dwitix.web.paths.excluded=<span class="pl-s"><span class="pl-pds">"</span>/javax.faces.resource, /resources<span class="pl-pds">"</span></span>
+							</pre>
+						</div>
 					</article>
 				</div>
 			</div>
@@ -142,7 +190,6 @@
 			</div><! --/row -->
 		</div><! --/container -->
 	</div><! --/twrap -->
-	
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
