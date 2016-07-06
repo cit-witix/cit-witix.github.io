@@ -80,7 +80,56 @@ docker-compose up
 							Importante observar que primeira execução será mais demorada, pois as imagens 
 							serão construídas (build) e as dependencias baixadas (kibana, elasticsearch, 
 							logstash, debian) do repositório central <a href="http://hub.docker.com">docker hub</a>
+
+							Observe que um dos containers em questão é um nginx que é resposável pela autenticação do usuário. Para acessar as urls é necessário informar usuário/senha que é <strong>witix/witix</strong>.
+
 						</p>
+						<p>
+							O arquivo abaixo mostra a configuração do docker-compose
+						</p>
+
+						<div class="highlight highlight-source-shell">
+							<pre>
+version: '3'
+services:
+    witix-elasticsearch:
+        build: elasticsearch/
+        ports:
+            - "9300:9300"
+        <span class="pl-c"># uncomment this section to have elasticsearch data persisted to a volume</span>
+        <span class="pl-c">#volumes:</span>
+        <span class="pl-c">#   - ./elasticsearch/data:/usr/share/elasticsearch/data</span>
+        networks:
+            - witix
+    witix-kibana:
+        build: kibana/
+        depends_on: 
+            - witix-elasticsearch
+        environment:
+            - ELASTICSEARCH_URL=http://witix-elasticsearch:9200    
+        networks:
+            - witix
+    witix-elastalert:
+        build: elastalert/
+        depends_on: 
+            - witix-elasticsearch
+        volumes:
+            - ./elastalert/conf/config.yaml:/opt/elastalert/config.yaml
+            - ./elastalert/conf/rules/:/opt/elastalert/rules                    
+        networks:
+            - witix
+    witix-nginx:
+        build: nginx/
+        depends_on: 
+            - witix-elasticsearch     
+        ports:
+            - "5601:5601"
+            - "9200:9200"                       
+        networks:
+            - witix  
+							</pre>
+						</div>
+
 						<p>Utilize as URLs abaixo para acessar os serviços: </p>
 						<ul>
 							<li><a href="http://localhost:9200/_plugin/head<">http://localhost:9200/_plugin/head</a></li>
